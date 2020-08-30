@@ -1,0 +1,9 @@
+# first release
+1. menambahkan pak.php
+2. response data
+4. penggunaan
+
+# resolusi versi berikutnya
+1. support data mahasiswa baru dengan nomor peserta ujian (SNMPTN/SBMPTN/SMM)
+2. menambhkn kode satudy kasus berbentuk form dan aplikasi jadi
+3. ambil lebih bnyak data lgi

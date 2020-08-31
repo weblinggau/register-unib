@@ -20,7 +20,7 @@ echo $datanama;
 
 ?>
 ```
-atau bisa lihat di folder /example untuk melihat contoh dalam bentuk aslinya.
+atau bisa lihat di folder ```example``` untuk melihat contoh dalam bentuk aslinya.
 
 # data yang di response
 pada saat memanggil fungsi ``` dataPortal() ``` wajib menyertakan 2 parameter yaitu NPM dan Password maka fungsi akan meresponse data sebgai berikut
@@ -29,23 +29,23 @@ array(10) {
   ["pesan"]=>
   string(8) "berhasil"
   ["npm"]=>
-  string(9) "data npm"
+  string(8) "data npm"
   ["nama"]=>
-  string(14) "nama"
+  string(4) "nama"
   ["prodi"]=>
-  string(10) "prodi"
+  string(5) "prodi"
   ["ttl"]=>
-  string(38) "ttl"
+  string(3) "ttl"
   ["agama"]=>
   string(5) "agama"
   ["kelamin"]=>
-  string(9) "gender"
+  string(6) "gender"
   ["ktp"]=>
-  string(16) "ktp"
+  string(3) "ktp"
   ["sekola asal"]=>
-  string(24) "asal sekola"
+  string(11) "asal sekola"
   ["ortu"]=>
-  string(12) "nama ayah"
+  string(9) "nama ayah"
 }
 
 ```

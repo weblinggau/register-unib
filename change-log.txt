@@ -2,8 +2,19 @@
 1. menambahkan pak.php
 2. response data
 4. penggunaan
+
+# relase 2
+1. menambahkan pak.php
+2. response data
+4. penggunaan
 5. contoh penggunaan sudah ada di folder example
 
+# release 3
+1. menambahkan pak.php
+2. response data
+4. penggunaan
+5. contoh penggunaan sudah ada di folder example
+6. support data mahasiswa baru dengan nomor peserta ujian (SNMPTN/SBMPTN/SMM)
+
 # resolusi versi berikutnya
-1. support data mahasiswa baru dengan nomor peserta ujian (SNMPTN/SBMPTN/SMM)
-3. ambil lebih bnyak data lgi
+1. ambil lebih bnyak data lgi

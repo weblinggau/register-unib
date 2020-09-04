@@ -1,87 +1,50 @@
 <?php 
-function dataPortal($user,$pass){
-		//The username or email address of the account.
-	define('USERNAME', $user);
-	 
-	//The password of the account.
-	define('PASSWORD', $pass);
-	 
-	//Set a user agent. This basically tells the server that we are using Chrome ;)
-	define('USER_AGENT', 'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2309.372 Safari/537.36');
-	 
-	//Where our cookie information will be stored (needed for authentication).
-	define('COOKIE_FILE', 'cookie.txt');
-	 
-	//URL of the login form.
-	define('LOGIN_FORM_URL', 'https://pak.unib.ac.id/');
-	 
-	//Login action URL. Sometimes, this is the same URL as the login form.
-	define('LOGIN_ACTION_URL', 'https://pak.unib.ac.id/index.php?pModule=zdKbnKU=&pSub=zdKbnKU=&pAct=0dWjppyl');
-	 
-	//An associative array that represents the required form fields.
-	//You will need to change the keys / index names to match the name of the form
-	//fields.
-	$postValues = array(
-	    'username' => USERNAME,
-	    'password' => PASSWORD
-	);
-//Initiate cURL.
-	$curl = curl_init();
-	//Set the URL that we want to send our POST request to. In this
-	//case, it's the action URL of the login form.
-	curl_setopt($curl, CURLOPT_URL, LOGIN_ACTION_URL);
-	 
-	//Tell cURL that we want to carry out a POST request.
-	curl_setopt($curl, CURLOPT_POST, true);
-	 
-	//Set our post fields / date (from the array above).
-	curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($postValues));
-	 
-	//We don't want any HTTPS errors.
-	curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-	 
-	//Where our cookie details are saved. This is typically required
-	//for authentication, as the session ID is usually saved in the cookie file.
-	curl_setopt($curl, CURLOPT_COOKIEJAR, COOKIE_FILE);
-	 
-	//Sets the user agent. Some websites will attempt to block bot user agents.
-	//Hence the reason I gave it a Chrome user agent.
-	curl_setopt($curl, CURLOPT_USERAGENT, USER_AGENT);
-	 
-	//Tells cURL to return the output once the request has been executed.
-	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-	 
-	//Allows us to set the referer header. In this particular case, we are 
-	//fooling the server into thinking that we were referred by the login form.
-	curl_setopt($curl, CURLOPT_REFERER, LOGIN_FORM_URL);
-	 
-	//Do we want to follow any redirects?
-	curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
-	 
-	//Execute the login request.
-	curl_exec($curl);
-	 
-	//Check for errors!
-	if(curl_errno($curl)){
-	    throw new Exception(curl_error($curl));
-	}else{
-	 
-		//We should be logged in by now. Let's attempt to access a password protected page
-		curl_setopt($curl, CURLOPT_URL, 'https://pak.unib.ac.id/index.php?pModule=1taZpQ==&pSub=0dWjmaCemQ==&pAct=18yZqg==');
-		 
-		//Use the same cookie file.
-		curl_setopt($curl, CURLOPT_COOKIEJAR, COOKIE_FILE);
-		 
-		//Use the same user agent, just in case it is used by the server for session validation.
-		curl_setopt($curl, CURLOPT_USERAGENT, USER_AGENT);
-		 
-		//We don't want any HTTPS / SSL errors.
+
+class zpmData{
+	private function curlLog($username,$password,$role){
+
+		if ($role == 'portal') {
+			$dat = array(
+				'username' => $username,
+				'password' => $password
+			);
+			define('LOGIN_FORM_URL', 'https://pak.unib.ac.id/');
+			define('LOGIN_ACTION_URL', 'https://pak.unib.ac.id/index.php?pModule=zdKbnKU=&pSub=zdKbnKU=&pAct=0dWjppyl');
+			define('LOGIN_PAGE', 'https://pak.unib.ac.id/index.php?pModule=1taZpQ==&pSub=0dWjmaCemQ==&pAct=18yZqg==');
+			define('COOKIE_FILE', 'cookie.txt');
+		}elseif ($role == 'regmaba') {
+			$dat = array(
+				'username' => 'debug',
+				'password' => $password,
+				'Nopes' => $username
+			);
+			define('LOGIN_FORM_URL', 'https://regmaba.unib.ac.id/index.php?m=content&p=login_lihat_ukt_snmptn');
+			define('LOGIN_ACTION_URL', 'https://regmaba.unib.ac.id/registrasi/content/proseslogin_lihat.php');
+			define('LOGIN_PAGE', 'https://regmaba.unib.ac.id/registrasi/content/tampil_data.php');
+			define('COOKIE_FILE', 'cookie.txt');
+		}
+
+		define('USER_AGENT', 'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2309.372 Safari/537.36');
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, LOGIN_ACTION_URL);
+	 	curl_setopt($curl, CURLOPT_POST, true);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($dat));
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-		 
-		//Execute the GET request and print out the result.
+		curl_setopt($curl, CURLOPT_COOKIEJAR, COOKIE_FILE);
+		curl_setopt($curl, CURLOPT_USERAGENT, USER_AGENT);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_REFERER, LOGIN_FORM_URL);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
+		curl_exec($curl);
+		curl_setopt($curl, CURLOPT_URL, LOGIN_PAGE);
 		$hasil = curl_exec($curl);
+		return $hasil;
+	}
+
+	public function logNpm($user,$pass){
+		$curl = $this->curlLog($user,$pass,'portal');
+		$hasil = $curl;
 		$exp1 = explode('<td>', $hasil);
 		$h4 = explode('<h4>', $hasil);
 		$nimex = explode('</td>', $exp1[1]);
@@ -93,7 +56,6 @@ function dataPortal($user,$pass){
 		$sltax = explode('</td>', $exp1[9]);
 		$ortux = explode('</td>', $exp1[11]);
 		$prod = explode('</h4>', $h4[2]);
-
 		$nim = $nimex[0];
 		$nama = $namx[0];
 		$prodi = $prod[0];
@@ -103,10 +65,9 @@ function dataPortal($user,$pass){
 		$ktp = $ktpx[0];
 		$asal = $sltax[0];
 		$ortu = $ortux[0];
-
 		if (empty($nim)) {
 			$result = array(
-				    'pesan' => 'Login Gagal.!',
+				    'pesan' => 'error',
 				);
 		}else{
 			$result = array(
@@ -118,12 +79,68 @@ function dataPortal($user,$pass){
 				    'agama' => $agma,
 				    'kelamin' => $gender,
 				    'ktp' => $ktp,
-				    'sekola asal' => $asal,
+				    'slta' => $asal,
 				    'ortu' => $ortu
 				);
 		}
-
-	}
 		return $result;
+	}
+
+	public function logPeserta($user,$pass){
+		$curl = $this->curlLog($user,$pass,'regmaba');
+		$nm = explode('<td>', $curl);
+		$nm1 = explode('</td>', $nm[3]);
+		$nm2 = explode('"', $nm1[0]);
+		$nama = $nm2[5];
+
+		$js = explode('</td>', $nm[9]);
+		$js1 = explode('"', $js[0]);
+		$gender = $js1[11];
+
+		$agm = explode('</td>', $nm[12]);
+		$agm1 = explode('"', $agm[0]);
+		$agama = $agm1[27];
+
+		$ttl = explode('</td>', $nm[23]);
+		$ttl1 = explode('"', $ttl[0]);
+		$tgl = $ttl1[13];
+
+		$gd = explode('</td>', $nm[26]);
+		$gd1 = explode('"', $gd[0]);
+		$goldar = $gd1[27];
+
+		$nop = explode('</td>', $nm[53]);
+		$nop1 = explode('"', $nop[0]);
+		$hp = $nop1[9];
+
+		$mail = explode('</td>', $nm[59]);
+		$mail1 = explode('"', $mail[0]);
+		$email = $mail1[11];
+
+		if (empty($gender)) {
+			$data = array(
+				'pesan' => 'expired',
+				'try' => 'coba gunakan metode ktm',
+				'nama' => $nama,
+				'photo' => 'https://regmaba.unib.ac.id/content/ktm/img/foto/'.$user.'/'.$user.'.jpg'
+						 );
+		}else{
+			$data = array(
+				'pesan' => 'sukses',
+				'nama' => $nama,
+				'gender' => $gender,
+				'agama' => $agama,
+				'ttl' => $tgl,
+				'goldar' => $goldar,
+				'hp' => $hp,
+				'email' => $email,
+				'photo' => 'https://regmaba.unib.ac.id/content/ktm/img/foto/'.$user.'/'.$user.'.jpg' 
+			);
+		}
+
+		return $data;
+	}
+
 }
+
 ?>

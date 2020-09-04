@@ -5,8 +5,8 @@ require '../pak.php';
 $npm = $_POST['npm'];
 $pass = $_POST['password'];
 
-
-$cek = dataPortal($npm,$pass);
+$curl = new zpmData();
+$cek = $curl->logNpm($npm,$pass);
 
 if (empty($cek['npm']) && $_POST['jts'] == '') {
 	$_SESSION['atribut'] = 'alert-warning';
@@ -41,7 +41,7 @@ if (empty($cek['npm']) && $_POST['jts'] == '') {
             <div class="form-group"><input class="form-control" type="text" name="TTL" placeholder="ttl" value="<?= $cek['ttl']; ?>"></div>
             <div class="form-group"><input class="form-control" type="text" name="prodi" placeholder="prodi" value="<?= $cek['prodi']; ?>"></div>
             <div class="form-group"><input class="form-control" type="text" name="agama" placeholder="agama" value="<?= $cek['agama']; ?>"></div>
-            <div class="form-group"><input class="form-control" type="text" name="slta" placeholder="slta" value="<?= $cek['sekola asal']; ?>"></div>
+            <div class="form-group"><input class="form-control" type="text" name="slta" placeholder="slta" value="<?= $cek['slta']; ?>"></div>
             <div class="form-group"><button class="btn btn-primary btn-block" type="submit">REGISTER</button></div>
         </form>
     </div>

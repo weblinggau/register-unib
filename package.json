@@ -1,0 +1,27 @@
+{
+  "name": "register-unib",
+  "version": "1.0.0",
+  "description": "Register unib bentuk packet",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weblinggau/register-unib.git"
+  },
+  "keywords": [
+    "unib",
+    "register"
+  ],
+  "author": "Aji Arian Nofa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/weblinggau/register-unib/issues"
+  },
+  "homepage": "https://github.com/weblinggau/register-unib#readme",
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
+}
